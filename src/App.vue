@@ -13,6 +13,11 @@
     <trs-game-controls 
       v-show="viewService.gameOver"
     ></trs-game-controls>
+    <trs-message 
+      ref="message"
+      :message="'+ 5 DAMAGE'"
+    ></trs-message>
+
   </trs-desktop>
 </template>
 
@@ -22,6 +27,7 @@ import PlayerVue from "./components/player/Player.vue";
 import { ActionsService } from "./services/actions.service"
 import GameControlsVue from './components/game-controls/GameControls.vue';
 import { ViewService } from './services/view.service';
+import MessageVue from './components/message/Message.vue';
 
 export default {
   data() {
@@ -32,11 +38,13 @@ export default {
   components: {
     trsDesktop: DesktopVue,
     trsPlayer: PlayerVue,
-    trsGameControls: GameControlsVue
+    trsGameControls: GameControlsVue,
+    trsMessage: MessageVue
   },
   mounted() {
     ActionsService.leftPlayer = this.$refs.leftPlayer
     ActionsService.rightPlayer = this.$refs.rightPlayer
+    ActionsService.message =  this.$refs.message
   }
 };
 </script>
