@@ -101,10 +101,16 @@ export default {
     background-position: bottom;
     height: 100%;
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
   }
 
   &-left {
-    left: 0;
+    left: 5px;
+    .image {
+      left: 40px;
+    }
     .hp-wrapper {
       left: 30px;
     }
@@ -115,7 +121,10 @@ export default {
   }
 
   &-right {
-    right: 10px;
+    right: 5px;
+    .image {
+      right: 40px;
+    }
     .hp-wrapper {
       right: 30px;
     }

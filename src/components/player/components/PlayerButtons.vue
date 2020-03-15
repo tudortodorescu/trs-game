@@ -38,7 +38,8 @@ export default {
 <style lang="scss" scoped>
 .buttons-wrapper {
   position: absolute;
-  bottom: 20px;
+  bottom: 50px;
+  z-index: 3;
 
   .button {
     cursor: pointer;
@@ -47,7 +48,7 @@ export default {
     background-position: bottom;
     height: 120px;
     width: 120px;
-    margin: 0 -10px;
+    margin: -5px -10px;
 
     &:hover {
       transform: scale(1.2);
