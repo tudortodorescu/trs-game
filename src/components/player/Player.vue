@@ -1,22 +1,29 @@
 <template>
   <div class="player" :class="playerPosition">
-    <trs-player-hp :hpCount="hpCount"></trs-player-hp>
-    <div class="image" :style="playerImage"></div>
+    <trs-player-hp 
+      v-show="!viewService.gameOver"
+      :hpCount="hpCount"
+    ></trs-player-hp>
+    <div 
+      ref="image"
+      class="image animated"
+      :style="playerImage"
+    ></div>
     <trs-player-buttons
-      v-show="generalViewService.showFightButtons"
-      :isLeft="isLeftButtons"
-      @onDamagePlayer="handleDamagePlayer"
-      @onHealPlayer="handleHealPlayer"
+      v-show="!viewService.gameOver"
+      :isLeft="isLeftPlayer"
     ></trs-player-buttons>
   </div>
 </template>
 
 <script>
-import { GeneralViewService } from '../../services/generalView.service'
+import { ViewService } from '../../services/view.service'
 import { buildSrcMixin } from './mixins/buildSrc.mixin'
 import { hpWatchMixin } from './mixins/hpWatch.mixin'
+import { ActionsService } from '../../services/actions.service'
 import PlayerHpVue from './components/PlayerHp.vue';
 import PlayerButtonsVue from './components/PlayerButtons.vue';
+
 export default {
   mixins: [
     buildSrcMixin,
@@ -37,11 +44,11 @@ export default {
   data() {
     return {
       isVictorious: false,
-      generalViewService: GeneralViewService
+      viewService: ViewService
     }
   },
   computed: {
-    isLeftButtons() {
+    isLeftPlayer() {
       if (this.leftPlayer)
         return true
 
@@ -65,6 +72,16 @@ export default {
     },
     handleHealPlayer(data) {
       this.$emit('onHealPlayerChanged', data)
+    },
+    resetPlayer() {
+      this.hpCount = 100
+      this.isVictorious = false
+    }
+  },
+  watch: {
+    isVictorious(victory) {
+      if (victory) 
+        ActionsService.winningPlayer(this.isLeftPlayer)
     }
   }
 };
@@ -104,9 +121,6 @@ export default {
     }
     .buttons-wrapper {
       right: 0;
-      .button.attack { background-image: url(/src/assets/buttons/attack-player-2.png) }
-      .button.special { background-image: url(/src/assets/buttons/special-attack-player-2.png) }
-      .button.heal { background-image: url(/src/assets/buttons/heal-players.png) }
     }
   }
 }

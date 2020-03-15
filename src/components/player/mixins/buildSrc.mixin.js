@@ -1,3 +1,5 @@
+import { ViewService } from '../../../services/view.service'
+
 export const buildSrcMixin = {
   methods: {
     buildSrc() {
@@ -21,10 +23,12 @@ export const buildSrcMixin = {
     buildSrcHp() {
       let src = ''
 
-      if (this.isVictorious) {
-        src += '5-victory.png'
-
-      } else if (this.hpCount === 100) {
+      if (ViewService.gameOver) {
+        src = (this.isVictorious) ? '5-victory.png' : '5-dead.png'
+        return src
+      } 
+      
+      if (this.hpCount === 100) {
         src += '1-fighting.png'
 
       } else if (this.hpCount > 75) {

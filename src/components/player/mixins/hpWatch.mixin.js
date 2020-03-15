@@ -1,4 +1,4 @@
-import { GeneralViewService } from '../../../services/generalView.service'
+import { ViewService } from '../../../services/view.service'
 
 export const hpWatchMixin = {
   watch: {
@@ -17,12 +17,10 @@ export const hpWatchMixin = {
   },
   mounted() {
     this.$root.$on('somebodyWon', _ => {
-      GeneralViewService.showFightButtons = false
+      ViewService.gameOver = true
       
       if (this.hpCount !== 0) 
         this.isVictorious = true
-
-      console.log(this.$root.$refs)
     });
   }
 }
