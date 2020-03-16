@@ -1,5 +1,8 @@
 <template>
-  <div class="player" :class="playerPosition">
+  <div 
+    class="player"
+    :class="playerPositionClass"
+  >
     <trs-player-hp 
       v-show="!viewService.gameOver"
       :hpCount="hpCount"
@@ -7,7 +10,7 @@
     <div 
       ref="image"
       class="image animated"
-      :style="playerImage"
+      :style="playerImageStyle"
     ></div>
     <trs-player-buttons
       v-show="!viewService.gameOver"
@@ -36,43 +39,31 @@ export default {
   props: {
     leftPlayer: Boolean,
     rightPlayer: Boolean,
-    hpCount: {
-      type: Number,
-      required: true
-    }
   },
   data() {
     return {
+      hpCount: 100,
       isVictorious: false,
       viewService: ViewService
     }
   },
   computed: {
     isLeftPlayer() {
-      if (this.leftPlayer)
-        return true
-
-      return false
+      return (this.leftPlayer)
     },
-    playerPosition() {
+    playerPositionClass() {
       return {
         "player-left": this.leftPlayer,
         "player-right": this.rightPlayer
       };
     },
-    playerImage() {
+    playerImageStyle() {
       return {
         'background-image': `url(${this.buildSrc()})`
       }
     }
   },
   methods: {
-    handleDamagePlayer(data) {
-      this.$emit('onDamagePlayerChanged', data)
-    },
-    handleHealPlayer(data) {
-      this.$emit('onHealPlayerChanged', data)
-    },
     resetPlayer() {
       this.hpCount = 100
       this.isVictorious = false
@@ -116,7 +107,6 @@ export default {
     }
     .buttons-wrapper {
       left: 10px;
-      
     }
   }
 
